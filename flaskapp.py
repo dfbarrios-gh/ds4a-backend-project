@@ -2,22 +2,24 @@
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 
-#custom
-from connection import ConnectionClass
+from business_eda import EdaBuilder
 
+#init
 application = app = Flask(__name__)
 api = Api(app)
 
-class HelloWorld(Resource):
+#body
+class Welcome(Resource):
     def get(self):
-        myConnectionClass = ConnectionClass()
-        val = myConnectionClass.conectar()
-        #print(val)
-        #return {'about':val}
-        return val
+        eda = EdaBuilder()
+        response = eda.Accidents()
+        return response
 
-api.add_resource(HelloWorld, '/')
+#resources
+api.add_resource(Welcome, '/')
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+
+#environment
 if __name__ == '__main__':
     app.run(debug = True)
