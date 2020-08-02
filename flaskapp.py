@@ -25,6 +25,12 @@ class AccidentServices(Resource):
 class AccidentPerSubtownServices(Resource):
     def get(self):
         return AccidentBusiness().GetAccidentsBySubtown()
+class AccidentPerHourOfDayServices(Resource):
+    def get(self):
+        return AccidentBusiness().GetAccidentsPerHourOfDay()
+class AccidentPerDayOfWeekServices(Resource):
+    def get(self):
+        return AccidentBusiness().GetAccidentsPerDayOfWeek()
 
 
 class ActorServices(Resource):
@@ -52,6 +58,8 @@ api.add_resource(WelcomeServices, '/')
 #accident
 api.add_resource(AccidentServices, '/accident')
 api.add_resource(AccidentPerSubtownServices, '/accident-number/subtown')
+api.add_resource(AccidentPerHourOfDayServices, '/accident-number/hour-of-day')
+api.add_resource(AccidentPerDayOfWeekServices, '/accident-number/day-of-week')
 ##actor
 api.add_resource(ActorServices, '/actor')
 ##cause

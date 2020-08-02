@@ -1,20 +1,20 @@
 #!/usr/bin/python
 import json
 import psycopg2
-
+import pandas as pd
 from flask import jsonify
 from data_config import config
  
 class ConnectionClass:
 
     def JsonFromQuery(self, query, headers):
-        conexion = None
+        connection = None
 
         try:
             params = config()
-            conexion = psycopg2.connect(**params)
+            connection = psycopg2.connect(**params)
 
-            cur = conexion.cursor()
+            cur = connection.cursor()
             cur.execute(query)    
             columns = (headers)
             
@@ -31,5 +31,50 @@ class ConnectionClass:
             print(error)
 
         finally:
-            if conexion is not None:
-                conexion.close()
+            if connection is not None:
+                connection.close()
+
+    def DataframeFromQuery(self, query):
+        connection = None
+
+        try:
+            params = config()
+            connection = psycopg2.connect(**params)
+            dataframe = pd.read_sql_query(query, con = connection)
+            print(dataframe)
+            return dataframe
+
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+        finally:
+            if connection is not None:
+                connection.close()
+
+    #def JsonListFromQuery(self, query):
+    #    connection = None
+    #
+    #    try:
+    #        params = config()
+    #        connection = psycopg2.connect(**params)
+    #        dataframe = pd.read_sql_query(query, con = connection)
+    #        #print(dataframe)
+    #
+    #        jsonresponse = '{'
+    #        for column in dataframe:
+    #            columnSerie = dataframe[column]
+    #            #print(columnSerie.name)
+    #            #print(columnSerie.tolist())
+    #            jsonresponse = jsonresponse + ' "' + str(columnSerie.name) + '" : ' + str(columnSerie.tolist()) + ','
+    #        jsonresponse = jsonresponse + '}'
+    #        #print(jsonresponse)
+    #        return jsonresponse
+    #
+    #    except (Exception, psycopg2.DatabaseError) as error:
+    #        print(error)
+    #
+    #    finally:
+    #        if connection is not None:
+    #            connection.close()
+    #
+    ## Iterate over the sequence of column names
