@@ -16,23 +16,31 @@ api = Api(app)
 #####body
 class WelcomeServices(Resource):
     def get(self):
-        return 'It works!'
+        return 'Status: It works!'
 
+#accidents
 class AccidentServices(Resource):
     def get(self):
         return AccidentBusiness().GetAccidents()
+class AccidentPerSubtownServices(Resource):
+    def get(self):
+        return AccidentBusiness().GetAccidentsBySubtown()
+
 
 class ActorServices(Resource):
     def get(self):
         return ActorBusiness().GetActors()
 
+
 class CauseServices(Resource):
     def get(self):
         return CauseBusiness().GetCauses()
 
+
 class VehicleServices(Resource):
     def get(self):
         return VehiclesBusiness().GetVehicles()
+
 
 class GeodataServices(Resource):
     def get(self):
@@ -43,6 +51,7 @@ api.add_resource(WelcomeServices, '/')
 
 #accident
 api.add_resource(AccidentServices, '/accident')
+api.add_resource(AccidentPerSubtownServices, '/accident-number/subtown')
 ##actor
 api.add_resource(ActorServices, '/actor')
 ##cause
