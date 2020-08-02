@@ -16,7 +16,7 @@ api = Api(app)
 #####body
 class WelcomeServices(Resource):
     def get(self):
-        return '<h3>It works!</h3>'
+        return 'It works!'
 
 class AccidentServices(Resource):
     def get(self):
