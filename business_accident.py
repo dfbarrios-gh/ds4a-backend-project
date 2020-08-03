@@ -12,17 +12,17 @@ class AccidentBusiness:
         jsonstring= ConnectionClass().JsonFromQuery(query, headers)
         return jsonstring
 
-    def GetAccidentsPerHourOfDay(self):
-        query = "select COUNT(CODIGO_SINIESTRO) AS NumberOfAccidents, extract(hour from DT_HORA_DIA) as Hour from (select TO_TIMESTAMP(HORA_FORMT, 'DD/MM/YYYY HH24:MI:SS') AS DT_HORA_DIA, CODIGO_SINIESTRO FROM (select FECHA || ' ' || HORA as HORA_FORMT, CODIGO_SINIESTRO from accidents) as sq) so group by HOUR order by Hour"
-        headers = 'Hour','NumberOfAccidents'
-        jsonstring= ConnectionClass().JsonFromQuery(query, headers)
-        return jsonstring
-
     def GetAccidentsPerDayOfWeek(self):
         query =  """select to_char(DATEGFORMAT, 'DAY') as DayOfWeek, count(CODIGO_SINIESTRO) AS NumberOfAccidents from 
         ( select TO_TIMESTAMP(HORA_FORMT, 'DD/MM/YYYY HH24:MI:SS') AS DATEGFORMAT, CODIGO_SINIESTRO FROM (select FECHA || ' ' || HORA as HORA_FORMT, CODIGO_SINIESTRO from accidents) as sq) AS sr
         group by DayOfWeek""" 
         headers = 'DayOfWeek','NumberOfAccidents'
+        jsonstring= ConnectionClass().JsonFromQuery(query, headers)
+        return jsonstring
+
+    def GetAccidentsPerHourOfDay(self):
+        query = "select COUNT(CODIGO_SINIESTRO) AS NumberOfAccidents, extract(hour from DT_HORA_DIA) as Hour from (select TO_TIMESTAMP(HORA_FORMT, 'DD/MM/YYYY HH24:MI:SS') AS DT_HORA_DIA, CODIGO_SINIESTRO FROM (select FECHA || ' ' || HORA as HORA_FORMT, CODIGO_SINIESTRO from accidents) as sq) so group by HOUR order by Hour"
+        headers = 'NumberOfAccidents', 'Hour'
         jsonstring= ConnectionClass().JsonFromQuery(query, headers)
         return jsonstring
 
